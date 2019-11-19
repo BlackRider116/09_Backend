@@ -1,4 +1,5 @@
-@host = http://localhost:9999
+# @host = http://localhost:9999
+@host = https://server-09-lektion.herokuapp.com/
 
 ###
 
