@@ -1,0 +1,14 @@
+@host = http://localhost:9999
+
+###
+
+GET {{host}}/messages
+
+###
+
+POST {{host}}/messages
+Content-Type: application/json
+
+{
+    "content": "First message"
+}
