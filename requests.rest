@@ -1,15 +1,42 @@
-# @host = http://localhost:9999
-@host = https://backend-09-server.herokuapp.com/
+@host = http://localhost:9999
+# @host = https://blackrider116-express-api.herokuapp.com
+
+###
+GET {{host}}/posts
+
+###
+GET {{host}}/posts/17
 
 ###
 
-GET {{host}}/messages
-
-###
-
-POST {{host}}/messages
+POST {{host}}/posts
 Content-Type: application/json
 
 {
-    "content": "First message"
+    "id": 0,
+    "content": "New Post",
+    "type": "regular"
 }
+
+###
+
+POST {{host}}/posts
+Content-Type: application/json
+
+{
+    "id": 1,
+    "content": "Updated Post",
+    "type": "video"
+}
+
+###
+
+DELETE {{host}}/posts/1
+
+###
+
+POST {{host}}/posts/2/likes
+
+###
+
+DELETE {{host}}/posts/2/likes

@@ -1,9 +1,10 @@
 {
-  "name": "chat-backend",
+  "name": "dz_08",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prestart": "npm i",
     "start": "nodemon app.js"
   },
   "author": "",
@@ -12,5 +13,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "nodemon": "^1.19.4"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
