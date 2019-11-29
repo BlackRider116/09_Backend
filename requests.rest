@@ -1,5 +1,5 @@
-# @host = http://localhost:9999
-@host = https://backend-09-server.herokuapp.com
+@host = http://localhost:9999
+# @host = https://backend-09-server.herokuapp.com
 
 ###
 GET {{host}}/posts
@@ -9,7 +9,7 @@ GET {{host}}/posts
 
 ###
 
-GET  {{host}}/posts/seenPosts/0
+GET  {{host}}/posts/seenPosts/10
 
 ###
 
@@ -43,4 +43,4 @@ POST {{host}}/posts/2/likes
 
 ###
 
-DELETE {{host}}/posts/2/likes
+DELETE {{host}}/posts/1/likes
