@@ -9,7 +9,7 @@ GET {{host}}/posts
 
 ###
 
-GET  {{host}}/posts/seenPosts/15
+GET  {{host}}/posts/seenPosts/0
 
 ###
 
