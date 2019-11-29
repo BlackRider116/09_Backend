@@ -1,11 +1,15 @@
-# @host = http://localhost:9999
-@host = https://backend-09-server.herokuapp.com
+@host = http://localhost:9999
+# @host = https://backend-09-server.herokuapp.com
 
 ###
 GET {{host}}/posts
 
 ###
-GET {{host}}/posts/17
+# GET {{host}}/posts/8
+
+###
+
+GET  {{host}}/posts/seenPosts/15
 
 ###
 

@@ -14,22 +14,67 @@ function findPostIndexById(id) {
     return posts.findIndex(o => o.id === id);
 }
 
-server.get('/posts/:lastSeenId', (req, res) => {
+
+function getPostsChunk(index) {
+    if (index - 5 >= 0) {
+        return posts.slice(index - 5, index);
+    }
+    if (index - 5 < 0) {
+        return posts.slice(0, index);
+    }
+}
+
+
+server.get('/posts/seenPosts/:lastSeenId', (req, res) => {
     const lastSeenId = Number(req.params.lastSeenId);
-    console.log(lastSeenId);
+    let postChunkArr;
     if (lastSeenId === 0) {
-        res.send(posts.slice(posts.indexOf(posts[posts.length - 5])));
-        return;
+        postChunkArr = posts.length < 5 ? posts : posts.slice(posts.length - 5);
+    } else {
+    // console.log(lastSeenId);
+    const index = findPostIndexById(lastSeenId);
+    // console.log(index);
+    postChunkArr = getPostsChunk(index);
+    // console.log(postChunkArr);
     }
 
-    const index = posts.findIndex(o => o.id > lastSeenId);
-    if (index === -1) {
-        res.send([]);
-        return;
-    }
-
-    res.send(posts.slice(index, index + 5));
+    res.send(postChunkArr);
 });
+
+// server.get('/posts/:lastSeenId', (req, res) => {
+//     const lastSeenId = Number(req.params.lastSeenId);
+//     // console.log(lastSeenId);
+//     // lastSeend === 0
+//     if (lastSeenId === 0) {
+//         res.send(posts.slice(posts.indexOf(posts[posts.length - 5])));
+//         return;
+//     }
+
+//     const index = posts.findIndex(o => o.id > lastSeenId);
+//     if (index === -1) {
+//         res.send([]);
+//         return;
+//     }
+
+//     res.send(posts.slice(index));
+// });
+
+// server.get('/posts/:lastSeenId', (req, res) => {
+//     const lastSeenId = Number(req.params.lastSeenId);
+//     console.log(lastSeenId);
+//     if (lastSeenId === 0) {
+//         res.send(posts.slice(posts.indexOf(posts[posts.length - 5])));
+//         return;
+//     }
+
+//     const index = posts.findIndex(o => o.id > lastSeenId);
+//     if (index === -1) {
+//         res.send([]);
+//         return;
+//     }
+
+//     res.send(posts.slice(index +5 ));
+// });
 
 server.get('/posts', (req, res) => {
     res.send(posts);
