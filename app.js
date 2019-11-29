@@ -6,6 +6,7 @@ const errorNotFound = { error: 'id.not_found' };
 let nextId = 1;
 let posts = [];
 
+
 const server = express();
 server.use(express.json());
 server.use(cors());
@@ -14,25 +15,44 @@ function findPostIndexById(id) {
     return posts.findIndex(o => o.id === id);
 }
 
-
 server.get('/posts/seenPosts/:lastSeenId', (req, res) => {
     const lastSeenId = Number(req.params.lastSeenId);
     const index = findPostIndexById(lastSeenId);
     // console.log(index);
-    let postChunkArr;
+    let lastPosts;
     if (lastSeenId === 0) {
-        postChunkArr = posts.slice(posts.length - 5);
+        lastPosts = posts.slice(posts.length - 5);
 
     } else if (lastSeenId > 0 && lastSeenId <= 5) {
-        postChunkArr = posts.slice(0, index);
+        lastPosts = posts.slice(0, index);
 
     } else {
-        postChunkArr = posts.slice(index - 5, index);
+        lastPosts = posts.slice(index - 5, index);
     }
-    // console.log(postChunkArr)
-    res.send(postChunkArr);
+    
+    // console.log(lastPosts)
+    res.send(lastPosts);
 });
 
+
+server.get('/posts/:seenId/:firstSeenId', (req, res) => {
+    const firstSeenId = Number(req.params.firstSeenId);
+    const seenId = Number(req.params.seenId);
+    console.log(firstSeenId);
+    console.log(seenId);
+    if (firstSeenId > seenId) {
+        res.send(posts.slice(posts.indexOf(posts)));
+        return;
+    }
+
+    const index = posts.findIndex(o => o.id > firstSeenId);
+    if (index === -1) {
+        res.send([]);
+        return;
+    }
+
+    res.send(posts.slice(index));
+});
 
 server.get('/posts', (req, res) => {
     res.send(posts);
@@ -66,6 +86,7 @@ server.delete('/posts/:id', (req, res) => {
     res.send(posts);
 });
 
+
 server.post('/posts/:id/likes', (req, res) => { 
     const id = Number(req.params.id);
     const index = findPostIndexById(id);
@@ -85,7 +106,7 @@ server.delete('/posts/:id/likes', (req, res) => {
         return;
     }
     posts = posts.map(o => o.id !== id ? o : { ...o, likes: o.likes - 1 })
-    res.send(posts);
+    res.send(posts[index]);//(`${posts[index].likes}`)
 });
 
 server.listen(process.env.PORT || 9999);
