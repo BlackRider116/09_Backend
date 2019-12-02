@@ -18,19 +18,25 @@ function findPostIndexById(id) {
 server.get('/posts/seenPosts/:lastSeenId', (req, res) => {
     const lastSeenId = Number(req.params.lastSeenId);
     const index = findPostIndexById(lastSeenId);
-    // console.log(index);
+    // console.log(lastSeenId);
+    // console.log(index)
     let lastPosts;
     if (lastSeenId === 0) {
-        lastPosts = posts.slice(posts.length - 5);
-
-    } else if (lastSeenId > 0 && lastSeenId <= 5) {
+        if (posts.length <= 5) {
+            lastPosts = posts;
+        } else {
+            lastPosts = posts.slice(posts.length - 5);
+        }
+              
+    }
+    else if (lastSeenId > 0 && lastSeenId <= 5) {
         lastPosts = posts.slice(0, index);
 
-    } else {
+    }
+    else {
         lastPosts = posts.slice(index - 5, index);
     }
-    
-    // console.log(lastPosts)
+
     res.send(lastPosts);
 });
 
@@ -38,8 +44,8 @@ server.get('/posts/seenPosts/:lastSeenId', (req, res) => {
 server.get('/posts/:seenId/:firstSeenId', (req, res) => {
     const firstSeenId = Number(req.params.firstSeenId);
     const seenId = Number(req.params.seenId);
-    console.log(firstSeenId);
-    console.log(seenId);
+    // console.log(firstSeenId);
+    // console.log(seenId);
     if (firstSeenId > seenId) {
         res.send(posts.slice(posts.indexOf(posts)));
         return;
@@ -62,8 +68,14 @@ server.post('/posts', (req, res) => {
     const body = req.body;
     const id = body.id;
     if (id === 0) {
-        posts = [...posts, { id: nextId++, content: body.content, type: body.type, likes: 0 }];
-        res.send(posts);
+        const newPost = {
+            id: nextId++,
+            content: body.content,
+            type: body.type,
+            likes: 0,
+        }
+        posts.push(newPost)
+        res.send(newPost)
         return;
     }
     const index = findPostIndexById(id);
@@ -71,8 +83,6 @@ server.post('/posts', (req, res) => {
         res.status(404).send(errorNotFound);
         return;
     }
-    posts = posts.map(o => o.id !== id ? o : { ...o, content: body.content, type: body.type });
-    res.send(posts);
 });
 
 server.delete('/posts/:id', (req, res) => {
@@ -86,8 +96,7 @@ server.delete('/posts/:id', (req, res) => {
     res.send(posts);
 });
 
-
-server.post('/posts/:id/likes', (req, res) => { 
+server.post('/posts/:id/likes', (req, res) => {
     const id = Number(req.params.id);
     const index = findPostIndexById(id);
     if (index === -1) {
@@ -95,10 +104,10 @@ server.post('/posts/:id/likes', (req, res) => {
         return;
     }
     posts = posts.map(o => o.id !== id ? o : { ...o, likes: o.likes + 1 })
-    res.send(posts);
+    res.send(posts[index]);
 });
 
-server.delete('/posts/:id/likes', (req, res) => { 
+server.delete('/posts/:id/likes', (req, res) => {
     const id = Number(req.params.id);
     const index = findPostIndexById(id);
     if (index === -1) {
@@ -106,9 +115,7 @@ server.delete('/posts/:id/likes', (req, res) => {
         return;
     }
     posts = posts.map(o => o.id !== id ? o : { ...o, likes: o.likes - 1 })
-    res.send(posts[index]);//(`${posts[index].likes}`)
+    res.send(posts[index]);
 });
 
 server.listen(process.env.PORT || 9999);
-
-

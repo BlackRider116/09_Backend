@@ -5,13 +5,13 @@
 GET {{host}}/posts
 
 ###
-# GET {{host}}/posts/8
+GET {{host}}/posts/8
 
 ###
 
 GET  {{host}}/posts/seenPosts/10
 
-###
+# ###
 
 POST {{host}}/posts
 Content-Type: application/json
