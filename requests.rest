@@ -1,5 +1,5 @@
 # @host = http://localhost:9999
-@host = https://backend-09-server.herokuapp.com
+@host = https://backend-09-server.herokuapp.comnpm
 
 ###
 GET {{host}}/posts

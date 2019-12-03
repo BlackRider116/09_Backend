@@ -41,7 +41,8 @@ server.get('/posts/seenPosts/:lastSeenId', (req, res) => {
 
 server.get('/posts/:firstSeenId', (req, res) => {
     const firstSeenId = Number(req.params.firstSeenId);
-    res.send(posts.slice(firstSeenId));    
+    res.send(posts.slice(firstSeenId)); 
+    // console.log(firstSeenId)   
 });
 
 
