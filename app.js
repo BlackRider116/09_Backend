@@ -15,6 +15,7 @@ function findPostIndexById(id) {
     return posts.findIndex(o => o.id === id);
 }
 
+
 server.get('/posts/seenPosts/:lastSeenId', (req, res) => {
     const lastSeenId = Number(req.params.lastSeenId);
     const index = findPostIndexById(lastSeenId);
@@ -42,7 +43,7 @@ server.get('/posts/seenPosts/:lastSeenId', (req, res) => {
 server.get('/posts/:firstSeenId', (req, res) => {
     const firstSeenId = Number(req.params.firstSeenId);
     res.send(posts.slice(firstSeenId)); 
-    // console.log(firstSeenId)   
+    console.log(firstSeenId)   
 });
 
 
