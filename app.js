@@ -18,8 +18,6 @@ function findPostIndexById(id) {
 server.get('/posts/seenPosts/:lastSeenId', (req, res) => {
     const lastSeenId = Number(req.params.lastSeenId);
     const index = findPostIndexById(lastSeenId);
-    // console.log(lastSeenId);
-    // console.log(index)
     let lastPosts;
     if (lastSeenId === 0) {
         if (posts.length <= 5) {
@@ -27,7 +25,7 @@ server.get('/posts/seenPosts/:lastSeenId', (req, res) => {
         } else {
             lastPosts = posts.slice(posts.length - 5);
         }
-              
+
     }
     else if (lastSeenId > 0 && lastSeenId <= 5) {
         lastPosts = posts.slice(0, index);
@@ -41,24 +39,11 @@ server.get('/posts/seenPosts/:lastSeenId', (req, res) => {
 });
 
 
-server.get('/posts/:seenId/:firstSeenId', (req, res) => {
+server.get('/posts/:firstSeenId', (req, res) => {
     const firstSeenId = Number(req.params.firstSeenId);
-    const seenId = Number(req.params.seenId);
-    // console.log(firstSeenId);
-    // console.log(seenId);
-    if (firstSeenId > seenId) {
-        res.send(posts.slice(posts.indexOf(posts)));
-        return;
-    }
-
-    const index = posts.findIndex(o => o.id > firstSeenId);
-    if (index === -1) {
-        res.send([]);
-        return;
-    }
-
-    res.send(posts.slice(index));
+    res.send(posts.slice(firstSeenId));    
 });
+
 
 server.get('/posts', (req, res) => {
     res.send(posts);
